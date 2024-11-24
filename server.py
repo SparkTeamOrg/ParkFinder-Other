@@ -1,6 +1,12 @@
-from flask import Flask, send_from_directory, render_template
+import os
+from flask import Flask, send_from_directory, render_template, request
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__, static_folder='src', template_folder='src')
+
+VALID_HASH = os.getenv('VALID_HASH')
 
 @app.route('/')
 def index():
@@ -16,7 +22,11 @@ def serve_assets(filename):
 
 @app.route('/download/<filename>')
 def download_file(filename):
-    return send_from_directory('src/assets', filename, as_attachment=True)
+    hash = request.args.get('hash')
+    if hash == VALID_HASH:
+        return send_from_directory('src/apks', filename, as_attachment=True)
+    else:
+        return "Invalid hash", 403
 
 if __name__ == '__main__':
     from waitress import serve

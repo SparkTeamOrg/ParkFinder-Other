@@ -12,14 +12,19 @@
         <img src="/assets/logo.png" alt="App Logo" class="logo" draggable="false">
         <h1>Download Our Android App</h1>
         <p>Get the latest version of our app for the best experience.</p>
-        <a href="path/to/your/app.apk" download>
+        <a href="/src/apks/app.apk" id="download-link">
             <button class="download-btn">Download APK</button>
         </a>
         <p>
             <strong>Version:</strong> 1.0.0<br>
-            <strong>Size:</strong> 22 MB<br>
-            <strong>Updated:</strong> 23th November 2024
+            <strong>Size:</strong> 23 MB<br>
+            <strong>Updated:</strong> 24th November 2024
         </p>
+        <div id="hash-prompt" style="display:none;">
+            <label for="hash-input">Enter download secret:</label>
+            <input type="text" id="hash-input">
+            <button id="submit-hash">Submit</button>
+        </div>
         <div class="screenshots">
             <h2>App Screenshots</h2>
             <div class="scroll-container">
@@ -33,5 +38,16 @@
             &copy; 2024 Spark. All rights reserved.
         </div>
     </div>
+    <script>
+        document.querySelector('.download-btn').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('hash-prompt').style.display = 'block';
+        });
+
+        document.getElementById('submit-hash').addEventListener('click', function() {
+            const hash = document.getElementById('hash-input').value;
+            window.location.href = `/download/app.apk?hash=${hash}`;
+        });
+    </script>
 </body>
 </html>
