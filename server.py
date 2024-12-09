@@ -26,7 +26,7 @@ def download_file(filename):
     if hash == VALID_HASH:
         return send_from_directory('src/apks', filename, as_attachment=True)
     else:
-        return "Invalid hash", 403
+        return "Invalid secret", 403
 
 if __name__ == '__main__':
     from waitress import serve
