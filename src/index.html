@@ -28,11 +28,8 @@
         <div class="screenshots" id="screenshots" style="display:none;">
             <h2>App Screenshots</h2>
             <p>Thank you for downloading our app! Check out some screenshots below.</p>
-            <div class="scroll-container">
-                <img src="/assets/screenshot1.png" alt="Screenshot 1" class="screenshot" draggable="false">
-                <img src="/assets/screenshot2.png" alt="Screenshot 2" class="screenshot" draggable="false">
-                <img src="/assets/screenshot3.png" alt="Screenshot 3" class="screenshot" draggable="false">
-                <img src="/assets/screenshot4.png" alt="Screenshot 4" class="screenshot" draggable="false">
+            <div class="scroll-container" id="scroll-container">
+                <!-- Dynamically add screenshots here -->
             </div>
         </div>
         
@@ -53,6 +50,21 @@
             }).then(response => {
                 if (response.status === 200) {
                     document.getElementById('screenshots').style.display = 'block';
+                    const scrollContainer = document.getElementById('scroll-container');
+                    const images = [
+                        'screenshot1.png',
+                        'screenshot2.png',
+                        'screenshot3.png',
+                        'screenshot4.png'
+                    ];
+                    images.forEach(image => {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = `/protected_assets/${image}?hash=${hash}`;
+                        imgElement.alt = `Screenshot ${image}`;
+                        imgElement.className = 'screenshot';
+                        imgElement.draggable = false;
+                        scrollContainer.appendChild(imgElement);
+                    });
                     window.location.href = `/download/app.apk?hash=${hash}`;
                 } else {
                     alert('Invalid download secret. Please try again.');
